@@ -1,3 +1,5 @@
+![Parable, Apache DataFusion, and TypeSafe. jev-datafusion: noul, choice, score, ask.](docs/images/header.png)
+
 # jev-datafusion
 
 Four SQL functions for a DataFusion session. Each one sends a row's state to a judgment server and returns a typed answer. This crate does not contain DataFusion. You depend on DataFusion from crates.io, then register the functions on a `SessionContext`.
