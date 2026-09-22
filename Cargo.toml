@@ -1,0 +1,37 @@
+[package]
+name = "jev-datafusion"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+license = "Apache-2.0"
+description = "DataFusion SQL functions for typed judgments across System One servers"
+repository = "https://github.com/parable-work/jev-datafusion"
+readme = "README.md"
+
+[dependencies]
+arrow = { version = "=58.3.0", features = ["json"] }
+arrow-schema = { version = "=58.3.0", features = ["serde", "canonical_extension_types"] }
+async-trait = "0.1"
+datafusion = "=53.1.0"
+datafusion-functions-json = "=0.53.1"
+fastrand = "2"
+futures = "0.3"
+httpdate = "1"
+parquet = { version = "=58.3.0", features = ["variant_experimental"] }
+parquet-variant = "=58.3.0"
+parquet-variant-compute = "=58.3.0"
+parquet-variant-json = "=58.3.0"
+reqwest = { version = "0.12", default-features = false, features = ["json", "stream", "http2", "rustls-tls-webpki-roots"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["arbitrary_precision", "raw_value"] }
+serde_path_to_error = "0.1.20"
+tokio = { version = "1", features = ["sync", "time"] }
+
+[dev-dependencies]
+axum = "0.8"
+tempfile = "3"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+
+[[example]]
+name = "register"
+path = "examples/register.rs"
