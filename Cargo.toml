@@ -35,3 +35,7 @@ tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 [[example]]
 name = "register"
 path = "examples/register.rs"
+
+[[example]]
+name = "live"
+path = "examples/live.rs"
