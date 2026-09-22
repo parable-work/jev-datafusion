@@ -79,9 +79,11 @@ FROM tickets;
 
 ```bash
 cargo test
+cargo test --test benchmark_matrix -- --ignored --test-threads=1
+cargo test --test spend -- --ignored --test-threads=1
 ```
 
-Live calls are not part of `cargo test`.
+The ignored tests are local mock-server benchmarks. Live provider calls are not part of `cargo test`.
 
 ## License
 

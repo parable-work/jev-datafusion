@@ -1,5 +1,5 @@
 {
-  "provenance": "Synthetic work episodes authored for PARABLE-4210. Durations and outcomes are illustrative, not customer telemetry. One row is one non-overlapping work episode, not one message.",
+  "provenance": "Synthetic work episodes. Durations and outcomes are illustrative, not customer telemetry. One row is one non-overlapping work episode, not one message.",
   "questions": {
     "repeatable_work": {
       "type": "noul",
