@@ -10,13 +10,9 @@ Yes or no. One float from 0 to 1. A value near 0.5 means the call is ambiguous.
 
 ![noul](docs/images/noul.png)
 
-```sql
-SELECT noul(
-  message,
-  instructions => 'Is the customer asking for money back?'
-) AS p_refund
-FROM tickets;
-```
+| p_refund |
+| --- |
+| 0.99 |
 
 ## choice
 
@@ -24,14 +20,9 @@ Pick one label and keep the full distribution. The result is a struct: `label`, 
 
 ![choice](docs/images/choice.png)
 
-```sql
-SELECT choice(
-  message,
-  instructions => 'Which queue should handle this?',
-  criteria => '{"billing":"Charges, invoices, refunds","technical":"Bugs and outages","other":"Anything else"}'
-) AS queue
-FROM tickets;
-```
+| label | confidence | probabilities |
+| --- | --- | --- |
+| billing | 0.97 | billing 0.97, technical 0.02, other 0.01 |
 
 ## score
 
@@ -39,14 +30,9 @@ Place the row on an ordered rubric. The score is the expected position on that l
 
 ![score](docs/images/score.png)
 
-```sql
-SELECT score(
-  message,
-  instructions => 'How soon does this need a reply?',
-  criteria => '["Can wait a week","This week","Today"]'
-) AS urgency
-FROM tickets;
-```
+| score | confidence | probabilities |
+| --- | --- | --- |
+| 1.86 | 0.84 | 0: 0.04, 1: 0.18, 2: 0.78 |
 
 ## ask
 
@@ -54,28 +40,11 @@ Several questions about the same row, in one request. The result is the server's
 
 ![ask](docs/images/ask.png)
 
-```sql
-SELECT ask(
-  message,
-  questions => '{
-    "refund": {
-      "type": "noul",
-      "instructions": "Is the customer asking for money back?"
-    },
-    "queue": {
-      "type": "choice",
-      "instructions": "Which queue should handle this?",
-      "criteria": {
-        "billing": "Charges and refunds",
-        "other": "Anything else"
-      }
-    }
-  }'
-) AS raw
-FROM tickets;
-```
+| refund | queue | queue confidence |
+| --- | --- | --- |
+| 0.99 | billing | 0.96 |
 
-The examples above assume a `tickets.message` column, such as `I was charged twice for my annual plan this morning. Please refund one of the charges today.`
+The tables are simulated answers for one row whose `message` is `I was charged twice for my annual plan this morning. Please refund one of the charges today.` They are not a live model call.
 
 Leave `model` off to use the server default. Pass `model => 'jev-1.13.0'` or `model => 'typesafe/jev-1.13'` when the call should be pinned. `SET jev.on_error = 'null'` turns a bad row into NULL. `fail` stops the query. A missing API key still fails while planning.
 
