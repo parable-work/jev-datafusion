@@ -8,6 +8,8 @@ TypeSafe is one server. OpenRouter is another. Any endpoint that speaks the same
 
 Yes or no. One float from 0 to 1. A value near 0.5 means the call is ambiguous.
 
+![noul](docs/images/noul.png)
+
 ```sql
 SELECT noul(
   message,
@@ -19,6 +21,8 @@ FROM tickets;
 ## choice
 
 Pick one label and keep the full distribution. The result is a struct: `label`, `confidence`, `probabilities`.
+
+![choice](docs/images/choice.png)
 
 ```sql
 SELECT choice(
@@ -33,6 +37,8 @@ FROM tickets;
 
 Place the row on an ordered rubric. The score is the expected position on that list. The result is a struct: `score`, `confidence`, `probabilities`.
 
+![score](docs/images/score.png)
+
 ```sql
 SELECT score(
   message,
@@ -46,10 +52,25 @@ FROM tickets;
 
 Several questions about the same row, in one request. The result is the server's response text, unchanged.
 
+![ask](docs/images/ask.png)
+
 ```sql
 SELECT ask(
   message,
-  questions => '{"refund":{"type":"noul","instructions":"Is the customer asking for money back?"},"queue":{"type":"choice","instructions":"Which queue should handle this?","criteria":{"billing":"Charges and refunds","other":"Anything else"}}}'
+  questions => '{
+    "refund": {
+      "type": "noul",
+      "instructions": "Is the customer asking for money back?"
+    },
+    "queue": {
+      "type": "choice",
+      "instructions": "Which queue should handle this?",
+      "criteria": {
+        "billing": "Charges and refunds",
+        "other": "Anything else"
+      }
+    }
+  }'
 ) AS raw
 FROM tickets;
 ```
@@ -177,7 +198,24 @@ SELECT choice(message, instructions => 'Which queue should handle this?', criter
 
 SELECT score(message, instructions => 'How soon does this need a reply?', criteria => '["Can wait a week","This week","Today"]') AS urgency FROM tickets;
 
-SELECT ask(message, questions => '{"refund":{"type":"noul","instructions":"Is the customer asking for money back?"},"queue":{"type":"choice","instructions":"Which queue should handle this?","criteria":{"billing":"Charges and refunds","other":"Anything else"}}}') AS raw FROM tickets;
+SELECT ask(
+  message,
+  questions => '{
+    "refund": {
+      "type": "noul",
+      "instructions": "Is the customer asking for money back?"
+    },
+    "queue": {
+      "type": "choice",
+      "instructions": "Which queue should handle this?",
+      "criteria": {
+        "billing": "Charges and refunds",
+        "other": "Anything else"
+      }
+    }
+  }'
+) AS raw
+FROM tickets;
 
 noul returns a float. choice returns label, confidence, and probabilities. score returns score, confidence, and probabilities. ask returns the response text unchanged. An explicit model => '...' argument overrides the server default. SET jev.on_error = 'null' turns a bad row into NULL instead of failing the query. Keep API keys in the environment. Do not commit them.
 ```
