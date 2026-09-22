@@ -56,7 +56,7 @@ This crate was written and tested against DataFusion 53.1.0.
 
 ```toml
 [dependencies]
-jev-datafusion = { git = "https://github.com/parable-work/jev-datafusion" }
+jev-datafusion = { git = "https://github.com/parable-work/jev-datafusion", tag = "v1.0.0" }
 datafusion = "=53.1.0"
 ```
 
@@ -125,6 +125,18 @@ cargo test
 - TypeSafe prices `jev-1.13.0` at $0.042 per million input tokens. OpenRouter and compatible servers use `usage.cost` when the response includes it.
 - State can be text, JSON, an Arrow struct or map, or a Parquet Variant.
 
+## Releases
+
+This project uses [semantic versioning](https://semver.org/). `1.0.0` is the first stable release. Install that tag, shown above, when you want a fixed version.
+
+Later releases are cut from `main` by [release-plz](https://release-plz.dev/). Write commits in the [conventional](https://www.conventionalcommits.org/) form:
+
+- `fix:` is a patch, `1.0.1`
+- `feat:` is a minor, `1.1.0`
+- `feat!:` or a `BREAKING CHANGE:` footer is a major, `2.0.0`
+
+release-plz opens a pull request with the version bump and changelog. Merging it creates the git tag and the GitHub release. The crate is not published to crates.io.
+
 ## License
 
 Apache-2.0. See [LICENSE](LICENSE).
@@ -137,7 +149,7 @@ Add jev-datafusion to this Rust project. Do not vendor or fork DataFusion.
 The crate was written and tested against DataFusion 53.1.0 and Arrow 58.3.0. If this project is already on that version, add:
 
 [dependencies]
-jev-datafusion = { git = "https://github.com/parable-work/jev-datafusion" }
+jev-datafusion = { git = "https://github.com/parable-work/jev-datafusion", tag = "v1.0.0" }
 datafusion = "=53.1.0"
 
 If this project uses a newer DataFusion, do not downgrade the whole project to 53.1.0. Integrate the four functions into the version already in Cargo.toml. Keep the SQL surface the same: noul, choice, score, and ask. Update the registration and the call that fills optional arguments where SessionContext, async UDFs, or named-argument SQL have changed. Change this crate's DataFusion dependency only as far as that version requires, and fix the compile errors that follow. The goal is a working register() and jev_datafusion::sql() on the project's DataFusion, not a pin back to 53.1.0.

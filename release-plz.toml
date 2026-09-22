@@ -1,0 +1,8 @@
+[workspace]
+# Tags are the version of record. This crate is not on crates.io.
+git_only = true
+git_release_enable = true
+git_tag_enable = true
+git_tag_name = "v{{ version }}"
+changelog_update = true
+semver_check = false
