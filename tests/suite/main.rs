@@ -3,6 +3,7 @@ mod datafusion_compatibility;
 mod execution;
 mod generated_json;
 mod join;
+mod live;
 mod planner;
 mod response_validation;
 mod servers;

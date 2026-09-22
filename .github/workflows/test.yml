@@ -16,3 +16,9 @@ jobs:
         run: cargo test --tests --examples
         env:
           CARGO_BUILD_JOBS: "2"
+      - name: Live TypeSafe and OpenRouter
+        env:
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          CARGO_BUILD_JOBS: "2"
+        run: cargo test --test suite live:: -- --ignored

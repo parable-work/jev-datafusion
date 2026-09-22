@@ -171,7 +171,7 @@ SET jev.on_error = 'null';
 
 ## Check it against your own key
 
-CI does not call TypeSafe or OpenRouter. The tests start DataFusion, register the functions, and run these SQL queries against a local HTTP server, so the planner, the HTTP client, and the result types are real. They are not live model answers.
+The default tests start DataFusion, register the functions, and run these SQL queries against a local HTTP server. GitHub Actions then sends one `noul` query to TypeSafe and one to OpenRouter, using repository secrets. The keys are not in the repository. A live answer only has to be a probability from 0 to 1.
 
 To send the four queries above to your account:
 
