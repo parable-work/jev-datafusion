@@ -1,5 +1,4 @@
-mod support;
-
+use crate::support::Mock;
 use arrow::datatypes::{DataType, Field};
 use datafusion::{
     common::{config::ConfigOptions, Result, ScalarValue},
@@ -8,7 +7,6 @@ use datafusion::{
 };
 use jev_datafusion::{register_jev, sql, JevProvider, JevUdf};
 use std::sync::Arc;
-use support::Mock;
 
 #[tokio::test]
 async fn stable_literals_use_async_execution() -> Result<()> {

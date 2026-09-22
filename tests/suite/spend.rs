@@ -62,8 +62,7 @@ async fn cheap_predicate_runs_before_paid_judgment() -> Result<()> {
     Ok(())
 }
 
-mod support;
-use support::{rows, Mock};
+use crate::support::{rows, Mock};
 
 #[tokio::test]
 async fn select_and_where_share_one_judgment_per_surviving_row() -> Result<()> {
@@ -490,7 +489,7 @@ async fn large_criteria_and_response_batch_never_repays_duplicate_keys() -> Resu
         128,
         "every canonical request is paid once in the batch"
     );
-    assert_eq!(support::metric(&plan, "cache_hits")?, 128);
+    assert_eq!(crate::support::metric(&plan, "cache_hits")?, 128);
     assert_eq!(
         pool.reserved(),
         0,

@@ -1,4 +1,4 @@
-#[path = "../src/state.rs"]
+#[path = "../../src/state.rs"]
 #[allow(dead_code)] // Includes the shared converter; instructions are tested separately.
 mod state;
 
@@ -26,7 +26,7 @@ use serde_json::{json, Value};
 // underspecified and prompt-injection records. No live model expectations.
 fn fixture() -> RecordBatch {
     let document: Value =
-        serde_json::from_str(include_str!("fixtures/work-episodes.json")).unwrap();
+        serde_json::from_str(include_str!("../fixtures/work-episodes.json")).unwrap();
     let episodes = document["episodes"].as_array().unwrap();
     let states = episodes
         .iter()

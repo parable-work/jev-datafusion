@@ -1,5 +1,4 @@
-mod support;
-
+use crate::support::Mock;
 use arrow::{
     array::{ArrayRef, StringArray},
     datatypes::{DataType, Field, Schema},
@@ -31,7 +30,6 @@ use std::{
     sync::Arc,
     time::{Duration, Instant},
 };
-use support::Mock;
 
 fn elapsed(plan: &Arc<dyn ExecutionPlan>) -> Result<Duration> {
     let mut nanos = 0;
@@ -148,7 +146,7 @@ async fn jev_elapsed_compute_includes_async_evaluation_but_not_upstream_wait() -
             mock.count()
         );
         let requests = if status.is_success() {
-            assert_eq!(support::rows(&output?), 3);
+            assert_eq!(crate::support::rows(&output?), 3);
             3
         } else {
             assert!(output.is_err());

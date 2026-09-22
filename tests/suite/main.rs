@@ -1,0 +1,15 @@
+mod benchmark_matrix;
+mod datafusion_compatibility;
+mod execution;
+mod generated_json;
+mod join;
+mod planner;
+mod response_validation;
+mod servers;
+mod session;
+mod spend;
+mod sql_contract;
+mod state_contract;
+mod state_source;
+mod support;
+mod transport;

@@ -1,8 +1,6 @@
-mod support;
-
+use crate::support::{rows, Mock};
 use datafusion::common::Result;
 use jev_datafusion::sql;
-use support::{rows, Mock};
 
 #[tokio::test]
 async fn inner_join_semantic_filter_runs_asynchronously_after_cheap_candidate_matching(

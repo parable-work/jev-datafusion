@@ -651,14 +651,14 @@ async fn bounded_mock_matrix() -> Result<()> {
         "run_unix_ms":std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_millis() as u64,
         "source_commit":command_text("git",&["rev-parse","HEAD"],root),
         "source_parent_commits":command_text("git",&["show","-s","--format=%P","HEAD"],root).split_whitespace().map(str::to_owned).collect::<Vec<_>>(),
-        "benchmark_source_git_blob":command_text("git",&["hash-object","tests/benchmark_matrix.rs"],root),
+        "benchmark_source_git_blob":command_text("git",&["hash-object","tests/suite/benchmark_matrix.rs"],root),
         "environment":{"os":std::env::consts::OS,"architecture":std::env::consts::ARCH,"rustc":command_text("rustc",&["--version"],root),"datafusion":datafusion::DATAFUSION_VERSION,"debug_assertions":cfg!(debug_assertions)},
         "method":{"axes":"independent, not Cartesian","measured_runs_per_case":1,"warmup_runs":0,"source_batch_size":2048,
             "query_timer":"SQL planning through collection; server/client/table creation excluded",
             "http_endpoint":"new loopback-only controlled server per case","real_provider_calls":0,"mock_noul":0.9,
             "http_concurrency_metric":"peak simultaneously active server handlers, after JSON request acceptance through response construction",
             "global_transport_concurrency_limit":8,"state_encoding_equivalent":true,
-            "command":"cargo test --test benchmark_matrix bounded_mock_matrix -- --ignored --nocapture --test-threads=1"},
+            "command":"cargo test --test suite bounded_mock_matrix -- --ignored --nocapture --test-threads=1"},
         "cases":observations,"storage":storage,
         "limitations":["Synthetic controlled outputs are not live semantic judgments.","Wall times include cold loopback connections and local runtime scheduling; one run per case is not a latency distribution or production throughput claim.","Concurrency cases deliberately add 5 ms of handler delay; other axes do not.","Storage results apply to these deterministic 75-option distributions, Parquet writer settings and sorted row order; Delta logs, object-store overhead and real model entropy are not measured.","Probability values are deterministic, but the actual UDF uses unordered maps; map entry order and exact compressed byte counts can vary between processes.","Existing 10k/400k scaling evidence was not rerun for this matrix."]
     });

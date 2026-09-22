@@ -1,5 +1,5 @@
 // Exercise the exact internal converter without widening the crate's public API.
-#[path = "../src/state.rs"]
+#[path = "../../src/state.rs"]
 mod state;
 
 use arrow::{

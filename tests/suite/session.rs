@@ -1,11 +1,9 @@
-mod support;
-
+use crate::support::Mock;
 use arrow::array::{Array, Float64Array};
 use axum::http::StatusCode;
 use datafusion::common::Result;
 use jev_datafusion::sql;
 use std::time::Duration;
-use support::Mock;
 
 #[tokio::test]
 async fn settings_are_query_snapshots_and_explicit_model_wins() -> Result<()> {
@@ -217,7 +215,7 @@ async fn malformed_column_criteria_nulls_only_the_bad_row_before_sending() -> Re
         .collect::<Vec<_>>();
     assert_eq!(values, vec![Some(0.9), None, Some(0.9)]);
     assert_eq!(mock.count(), 2);
-    assert_eq!(support::metric(&plan, "failures")?, 1);
+    assert_eq!(crate::support::metric(&plan, "failures")?, 1);
     assert!(mock
         .bodies
         .lock()
@@ -252,8 +250,8 @@ async fn cached_transport_errors_count_every_failed_row() -> Result<()> {
     let result = datafusion::physical_plan::collect(plan.clone(), mock.context.task_ctx()).await?;
     assert_eq!(result[0].column(0).null_count(), 3);
     assert_eq!(mock.count(), 1);
-    assert_eq!(support::metric(&plan, "failures")?, 3);
-    assert_eq!(support::metric(&plan, "cache_hits")?, 2);
+    assert_eq!(crate::support::metric(&plan, "failures")?, 3);
+    assert_eq!(crate::support::metric(&plan, "cache_hits")?, 2);
     Ok(())
 }
 
@@ -272,7 +270,7 @@ async fn null_policy_applies_to_each_kind_of_row_validation() -> Result<()> {
         let nulls = result.iter().flat_map(|batch| (0..batch.num_rows()).map(|row| batch.column(0).is_null(row))).collect::<Vec<_>>();
         assert_eq!(nulls, vec![false,true], "{argument}");
         assert_eq!(mock.count(),1,"invalid {argument} must fail before sending");
-        assert_eq!(support::metric(&plan,"failures")?,1,"{argument}");
+        assert_eq!(crate::support::metric(&plan,"failures")?,1,"{argument}");
     }
     Ok(())
 }
@@ -326,7 +324,7 @@ async fn sql_null_state_is_not_a_failed_row() -> Result<()> {
     let result = datafusion::physical_plan::collect(plan.clone(), mock.context.task_ctx()).await?;
     assert_eq!(result[0].column(0).null_count(), 1);
     assert_eq!(mock.count(), 1);
-    assert_eq!(support::metric(&plan, "failures")?, 0);
+    assert_eq!(crate::support::metric(&plan, "failures")?, 0);
     Ok(())
 }
 

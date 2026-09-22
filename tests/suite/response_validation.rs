@@ -1,13 +1,11 @@
-mod support;
-
 use std::time::Duration;
 
+use crate::support::Mock;
 use arrow::array::{Array, StringArray};
 use axum::http::StatusCode;
 use datafusion::common::Result;
 use jev_datafusion::sql;
 use serde_json::json;
-use support::Mock;
 
 // Exact answers are controlled fixtures from a local HTTP server, never live
 // model expectations.
@@ -174,7 +172,7 @@ async fn column_question_errors_null_only_invalid_rows_without_spending() -> Res
             .sum::<usize>(),
         5
     );
-    assert_eq!(support::metric(&plan, "failures")?, 5);
+    assert_eq!(crate::support::metric(&plan, "failures")?, 5);
     assert_eq!(mock.count(), 2, "each query sends only its valid row");
     Ok(())
 }
@@ -231,7 +229,7 @@ async fn typed_probability_failures_leave_raw_ask_cache_bytes_available() -> Res
             raw
         );
         assert_eq!(mock.count(), 1);
-        assert_eq!(support::metric(&plan, "failures")?, 1);
+        assert_eq!(crate::support::metric(&plan, "failures")?, 1);
     }
     Ok(())
 }
