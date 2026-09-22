@@ -2,9 +2,11 @@
 
 # jev-datafusion
 
-Four SQL functions for a DataFusion session. Each one sends a row's state to a judgment server and returns a typed answer. This crate does not contain DataFusion. You depend on DataFusion from crates.io, then register the functions on a `SessionContext`.
+A query can ask a question about every row and keep the answer as a normal column. [TypeSafe](https://typesafe.ai/) built Jev for that: a probability, a label, or a place on a rubric you wrote, each with a confidence you can filter on. jev-datafusion registers that as `noul`, `choice`, `score`, and `ask` inside DataFusion.
 
-TypeSafe is one server. OpenRouter is another. Any endpoint that speaks the same JSON can be a third.
+That is the part that changes what a query can do. Keep refund requests only when the probability is high, and leave the rest for a person. Route a message by the team it was assigned. Score a backlog against a scale, then sort. Or ask several of those questions about the same row in one request. More of those queries are in [Examples](EXAMPLES.md).
+
+This crate does not contain DataFusion. You depend on DataFusion from crates.io and register the functions on a `SessionContext`. TypeSafe is one server. OpenRouter is another. Any endpoint that speaks the same JSON can be a third.
 
 ## noul
 
