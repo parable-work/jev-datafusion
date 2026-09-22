@@ -1,6 +1,6 @@
 # Examples
 
-Four queries beyond the refund walkthrough in the [README](README.md). The screenshots are the SQL. The tables under them are simulated answers for the row described in each section. They are not a live model call.
+Queries beyond the refund walkthrough in the [README](README.md). The screenshots are the SQL. The tables under them are simulated answers for the row described in each section. They are not a live model call.
 
 ## Is this a customer-facing outage?
 
@@ -49,3 +49,47 @@ The rubric runs from 0, a person must decide, to 4, software can check its own w
 | 0.93 | engineering | 0.88 |
 
 `ask` returns the response text. The table is that text read back into columns. `owner` is engineering rather than support because the question asked who owns the next step, and the note names the fix first.
+
+## Does this pull request touch auth?
+
+`diff` is `Adds a session cookie check before the billing admin routes, and rejects missing scopes.`
+
+![Does this pull request touch auth?](docs/images/examples/ex-auth.png)
+
+| p_auth |
+| --- |
+| 0.97 |
+
+## What kind of review is this?
+
+`review` is `Love the new export. Can you also add a CSV button? The PDF one crashed twice this week.`
+
+![What kind of review is this?](docs/images/examples/ex-review.png)
+
+| label | confidence | probabilities |
+| --- | --- | --- |
+| feature | 0.61 | bug 0.27, feature 0.61, praise 0.12 |
+
+The praise and the crash are both in the text, so the winning label is not a blowout. That is what the distribution is for.
+
+## How soon should sales reply?
+
+`lead` is `We have budget approved for Q4 and want a pilot with two teams starting October 6.`
+
+The scale runs from 0, no buying signal, to 4, they asked to buy this week.
+
+![How soon should sales reply?](docs/images/examples/ex-lead.png)
+
+| heat | confidence | probabilities |
+| --- | --- | --- |
+| 3.20 | 0.77 | 0: 0.01, 1: 0.04, 2: 0.14, 3: 0.56, 4: 0.25 |
+
+## Does this clause auto-renew?
+
+`clause` is `This agreement renews for successive one-year terms unless either party gives written notice at least 30 days before the end of the then-current term.`
+
+![Does this clause auto-renew?](docs/images/examples/ex-clause.png)
+
+| renews | notice | notice confidence |
+| --- | --- | --- |
+| 0.98 | days | 0.91 |
